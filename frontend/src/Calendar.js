@@ -15,9 +15,24 @@ function Calendar() {
     fetch(legislationUrl)
       .then(response => response.json())
       .then(data => {
-        //console.log(data);
-        return data;
+        console.log(data);        
+        let info = new Map();
+
+        for(let i = 0; i < data.results.length; i++){
+          let bill = data.results[i].bill;
+          let startDate = bill.debates[bill.debates.length -1].date; //this is the date on which the bill was first debated
+          let stage = bill.status;
+          let endDate = null;
+          if (stage === "Enacted"){
+            endDate = bill.act.dateSigned;
+          }
+          let object = {"startDate" : startDate, "stage" : stage, "endDate": endDate};
+
+          info.set(bill.billNo, object);
+        }
+        console.log(info);
       });
+
   }
   
   export default Calendar;
