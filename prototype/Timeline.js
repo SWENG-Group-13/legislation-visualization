@@ -1,129 +1,166 @@
-import * as d3 from "d3";
-import { useEffect } from 'react';
+import React from 'react';
+import * as d3 from 'd3';
 
 function Timeline(props) {
-    useEffect(() => {
-        const {data} = props;
-        
-        function calcStartX(d){
-          return Math.abs(width * (d.start - areaStartYear)/areaPeriod) + 5;
-        }
-        
-        function calcEndX(d){
-          return Math.abs(width * (d.end - areaStartYear)/areaPeriod) - 10;
-        }
-        
-        function getMinimumStartYear(data){
-          return Math.min.apply(null, data.map(function(row){ return row.start })) - 10;
-        }
-        
-        function getMaximumEndYear(data){
-          return Math.max.apply(null, data.map(function(row){ return row.end })) + 10;
-        }
-        
-        function getEventList(data){
-          var list = data.map(function(row, i){
-            return row.events.map(function(event){
-              return {
-                title: row.title,
-                content: event.content,
-                top: row.top,
-                start: event.start,
-                baseIndex: i
-              }
+
+    const targetRef = React.useRef();
+    const [sizes, setSizes] = React.useState({ width:0, height:0});
+
+    React.useLayoutEffect(() => {
+        if(targetRef.current) {
+            setSizes({
+                width: targetRef.current.offsetWidth,
+                height: targetRef.current.offsetHeight
             });
-          })
-          return Array.prototype.concat.apply([], list);
         }
-        var width = 700;
-        var height = 700;
-        const svg = d3
-          .select("#area")
-          .append("svg")
-          .attr("class", "svg")
-          .attr("width", width)
-          .attr("height", height)
-        var eventData = getEventList(data);
-        var areaStartYear = getMinimumStartYear(data);
-        var areaEndYear = getMaximumEndYear(data);
-        var areaPeriod = areaEndYear - areaStartYear;
-        var scale = areaPeriod / width
-        svg.selectAll("line")
-          .data(data)
-          .enter()
-          .append("line")
-          .attr("x1", function(d){ return calcStartX(d); })
-          .attr("y1", function(d, i){ return (i+1)*60; })
-          .attr("x2", function(d){ console.log(calcStartX(d)); return calcStartX(d); })
-          .attr("y2", function(d, i){ return (i+1)*60; })
-          .transition()
-          .duration(1000)
-          .attr("x1", function(d){ return calcStartX(d); })
-          .attr("y1", function(d, i){ return (i+1)*60; })
-          .attr("x2", function(d){ return calcEndX(d); })
-          .attr("y2", function(d, i){ return (i+1)*60; })
-          .attr("stroke-width", 3)
-          .attr("stroke", function(d){ return "black"; })
-        svg.selectAll("startYear")
-          .data(data)
-          .enter()
-          .append("circle")
-          .attr("r", 0)
-          .attr("cx", function(d){ return calcStartX(d); })
-          .attr("cy", function(d, i){ return (i+1)*60; })
-          .transition()
-          .duration(1500)
-          .attr("r", 5)
-          .attr("fill", function(d){ return "black"; })
-          .attr("cx", function(d){ return calcStartX(d); })
-          .attr("cy", function(d, i){ return (i+1)*60; });
-        svg.selectAll("endYear")
-          .data(data)
-          .enter()
-          .append("circle")
-          .attr("r", 0)
-          .attr("cx", function(d){ return calcEndX(d); })
-          .attr("cy", function(d, i){ return (i+1)*60; })
-          .transition()
-          .duration(1500)
-          .attr("r", 5)
-          .attr("fill", function(d){ return "black"; })
-          .attr("cx", function(d){ return calcEndX(d); })
-          .attr("cy", function(d, i){ return (i+1)*60; });
-        svg.selectAll("eventPoint")
-          .data(eventData)
-          .enter()
-          .append("circle")
-          .attr("class", "eventPoint")
-          .attr("r", 0)
-          .attr("cx", function(d){ return calcStartX(d); })
-          .attr("cy", function(d, i){ return (d.baseIndex+1)*60; })
-          .transition()
-          .duration(2500)
-          .attr("r", 5)
-          .attr("fill", function(d){ return "red"; })
-          .attr("cx", function(d){ return calcStartX(d); })
-          .attr("cy", function(d, i){ return (d.baseIndex+1)*60; });
-  
-        svg.selectAll("text")
-          .data(data)
-          .enter()
-          .append("text")
-          .attr("x", function(d){ return calcStartX(d) - 30; })
-          .attr("y", function(d, i){ return (i+1)*60 - 12; })
-          .transition()
-          .duration(1500)
-          .text(function(d){ return d.title + " (" + d.start + " ~ " + d.end + ")"; })
-          .attr("fill","black")
-          .attr("x", function(d){ return calcStartX(d); })
-          .attr("y", function(d, i){ return (i+1)*60 - 12; })
-          .attr("font-size", 12);
-      }, []);
-  return (
-    <div className="Timeline">
-      <svg id="area" height={700} width={700}></svg>
-    </div>
-  );
+
+        const dummy = [
+            {bill: "Health", stage: 1, date: new Date("2012-01-01")},
+            {bill: "Health", stage: 2, date: new Date("2013-01-01")},
+            {bill: "Health", stage: 3, date: new Date("2014-01-01")},
+            {bill: "Housing", stage: 1, date: new Date("2015-01-01")},
+            {bill: "Housing", stage: 2, date: new Date("2016-01-01")},
+            {bill: "Housing", stage: 3, date: new Date("2017-01-01")},
+            {bill: "Housing", stage: 4, date: new Date("2018-01-01")}
+        ]
+
+        const chart = DotPlot(dummy, {
+            x: d => d.date,
+            y: d => d.bill,
+            z: d => d.stage,
+            xFormat: "%Y-%m-%d",
+            width: 700,
+            height: 400,
+            marginLeft:100
+        })
+
+        const target = document.querySelector("#tl");
+        target.appendChild(chart); 
+    }, [])
+
+    return (<div className="Timeline" id="tl"></div>)
 }
+
+// Copyright 2021 Observable, Inc.
+// Released under the ISC license.
+// https://observablehq.com/@d3/dot-plot
+function DotPlot(data, {
+    x = ([x]) => x, // given d in data, returns the (quantitative) value x
+    y = ([, y]) => y, // given d in data, returns the (categorical) value y
+    z = () => 1, // given d in data, returns the (categorical) value z
+    r = 3.5, // (fixed) radius of dots, in pixels
+    xFormat, // a format specifier for the x-axis
+    marginTop = 30, // top margin, in pixels
+    marginRight = 30, // right margin, in pixels
+    marginBottom = 10, // bottom margin, in pixels
+    marginLeft = 30, // left margin, in pixels
+    width = 640, // outer width, in pixels
+    height, // outer height, in pixels, defaults to heuristic
+    xType = d3.scaleLinear, // type of x-scale
+    xDomain, // [xmin, xmax]
+    xRange = [marginLeft, width - marginRight], // [left, right]
+    xLabel, // a label for the x-axis
+    yDomain, // an array of (ordinal) y-values
+    yRange, // [top, bottom]
+    yPadding = 1, // separation for first and last dots from axis
+    zDomain, // array of z-values
+    colors, // color scheme
+    stroke = "currentColor", // stroke of rule connecting dots
+    strokeWidth, // stroke width of rule connecting dots
+    strokeLinecap, // stroke line cap of rule connecting dots
+    strokeOpacity, // stroke opacity of rule connecting dots
+    duration: initialDuration = 250, // duration of transition, if any
+    delay: initialDelay = (_, i) => i * 10, // delay of transition, if any
+  } = {}) {
+    // Compute values.
+    const X = d3.map(data, x);
+    const Y = d3.map(data, y);
+    const Z = d3.map(data, z);
+  
+    // Compute default domains, and unique them as needed.
+    if (xDomain === undefined) xDomain = d3.extent(X);
+    if (yDomain === undefined) yDomain = Y;
+    if (zDomain === undefined) zDomain = Z;
+    yDomain = new d3.InternSet(yDomain);
+    zDomain = new d3.InternSet(zDomain);
+    
+    // Omit any data not present in the y- and z-domains.
+    const I = d3.range(X.length).filter(i => yDomain.has(Y[i]) && zDomain.has(Z[i]));
+  
+    // Compute the default height.
+    if (height === undefined) height = Math.ceil((yDomain.size + yPadding) * 16) + marginTop + marginBottom;
+    if (yRange === undefined) yRange = [marginTop, height - marginBottom];
+  
+    // Chose a default color scheme based on cardinality.
+    if (colors === undefined) colors = d3.schemeSpectral[zDomain.size];
+    if (colors === undefined) colors = d3.quantize(d3.interpolateSpectral, zDomain.size);
+  
+    // Construct scales and axes.
+    const xScale = xType(xDomain, xRange);
+    const yScale = d3.scalePoint(yDomain, yRange).round(true).padding(yPadding);
+    const color = d3.scaleOrdinal(zDomain, colors);
+    const xAxis = d3.axisTop(xScale).ticks(width / 80).tickFormat(d3.timeFormat(xFormat));
+  
+    const svg = d3.create("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("viewBox", [0, 0, width, height])
+        .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+  
+    svg.append("g")
+        .attr("transform", `translate(0,${marginTop})`)
+        .call(xAxis)
+        .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick line").clone()
+            .attr("y2", height - marginTop - marginBottom)
+            .attr("stroke-opacity", 0.1))
+        .call(g => g.append("text")
+            .attr("x", width - marginRight)
+            .attr("y", -22)
+            .attr("fill", "currentColor")
+            .attr("text-anchor", "end")
+            .text(xLabel));
+  
+    const g = svg.append("g")
+        .attr("text-anchor", "end")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 10)
+      .selectAll()
+      .data(d3.group(I, i => Y[i]))
+      .join("g")
+        .attr("transform", ([y]) => `translate(0,${yScale(y)})`);
+  
+    g.append("line")
+        .attr("stroke", stroke)
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke-linecap", strokeLinecap)
+        .attr("stroke-opacity", strokeOpacity)
+        .attr("x1", ([, I]) => xScale(d3.min(I, i => X[i])))
+        .attr("x2", ([, I]) => xScale(d3.max(I, i => X[i])));
+  
+    g.selectAll("circle")
+      .data(([, I]) => I)
+      .join("circle")
+        .attr("cx", i => xScale(X[i]))
+        .attr("fill", i => color(Z[i]))
+        .attr("r", r);
+  
+    g.append("text")
+        .attr("dy", "0.35em")
+        .attr("x", ([, I]) => xScale(d3.min(I, i => X[i])) - 6)
+        .text(([y]) => y);
+  
+    return Object.assign(svg.node(), {
+      color,
+      update(yDomain, {
+        duration = initialDuration, // duration of transition
+        delay = initialDelay, // delay of transition
+      } = {}) {
+        yScale.domain(yDomain);
+        const t = g.transition().duration(duration).delay(delay);
+        t.attr("transform", ([y]) => `translate(0,${yScale(y)})`);
+      }
+    });
+  }
 
 export default Timeline;
