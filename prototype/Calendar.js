@@ -1,25 +1,29 @@
-import React from 'react';
 import * as d3 from 'd3';
+import React from 'react';
 
 function Calendar(props) {
-    React.useLayoutEffect(() => {
-        const dummy = [
-            {bill: "Health", stage: 1, date: new Date("2012-01-01")},
-            {bill: "Health", stage: 2, date: new Date("2012-01-02")},
-            {bill: "Health", stage: 3, date: new Date("2012-01-03")}
-        ]
 
-        const chart = Calendar2(dummy, {
+    React.useEffect(() => {
+
+        const { data } = props;
+
+        data.sort((a,b) => a.date - b.date);
+
+        const chart = Calendar2(data, {
             x: d => d.date,
             y: d => d.stage,
             weekday: "monday"
-        })
+        });
+
         const target = document.querySelector("#cr");
+        while(target.firstChild)
+            target.removeChild(target.firstChild);
         target.appendChild(chart);
     })
 
     return (
-        <div className="Calendar" id="cr"></div>
+        <div className="Calendar" id="cr">
+        </div>
     )
 }
 

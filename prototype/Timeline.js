@@ -1,44 +1,32 @@
-import React from 'react';
 import * as d3 from 'd3';
+import React from 'react';
 
 function Timeline(props) {
 
-    const targetRef = React.useRef();
-    const [sizes, setSizes] = React.useState({ width:0, height:0});
+    React.useEffect(() => {
 
-    React.useLayoutEffect(() => {
-        if(targetRef.current) {
-            setSizes({
-                width: targetRef.current.offsetWidth,
-                height: targetRef.current.offsetHeight
-            });
-        }
+        const { data } = props;
 
-        const dummy = [
-            {bill: "Health", stage: 1, date: new Date("2012-01-01")},
-            {bill: "Health", stage: 2, date: new Date("2013-01-01")},
-            {bill: "Health", stage: 3, date: new Date("2014-01-01")},
-            {bill: "Housing", stage: 1, date: new Date("2015-01-01")},
-            {bill: "Housing", stage: 2, date: new Date("2016-01-01")},
-            {bill: "Housing", stage: 3, date: new Date("2017-01-01")},
-            {bill: "Housing", stage: 4, date: new Date("2018-01-01")}
-        ]
-
-        const chart = DotPlot(dummy, {
+        const chart = DotPlot(data, {
             x: d => d.date,
-            y: d => d.bill,
+            y: d => d.title,
             z: d => d.stage,
             xFormat: "%Y-%m-%d",
-            width: 700,
-            height: 400,
-            marginLeft:100
-        })
+            width: 1200,
+            height: 700,
+            marginLeft:300
+        });
 
         const target = document.querySelector("#tl");
-        target.appendChild(chart); 
-    }, [])
+        while(target.firstChild)
+            target.removeChild(target.firstChild);
+        target.appendChild(chart);
+    })
 
-    return (<div className="Timeline" id="tl"></div>)
+    return (
+        <div className="Timeline" id="tl">
+        </div>
+    )
 }
 
 // Copyright 2021 Observable, Inc.
