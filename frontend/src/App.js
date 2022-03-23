@@ -5,7 +5,11 @@ import Timeline from './Components/Timeline.js'
 
 function App() {
 
-  const fetchData = () => {
+  const [val, setVal] = React.useState([]);
+
+  const fetchData = e => {
+
+    e.preventDefault();
 
     const url = "https://api.oireachtas.ie/v1/legislation?date_end=" + document.getElementById("end_date").value
 
@@ -31,17 +35,15 @@ function App() {
         })
   }
 
-  const [val, setVal] = React.useState([]);
-
   return (
     <div className="App">
       <h1>Demonstration</h1>
-      <form>
+      <form onSubmit={fetchData}>
         <label>
           Enter end date:<br/>
           <input type="text" id="end_date" size="10" maxLength="4"></input>
         </label>
-        <input type="button" value="Fetch" onClick={fetchData}></input>
+        <button type="submit">Fetch</button>
       </form>
       <Timeline data={val}/>
       <Calendar data={val}/>
