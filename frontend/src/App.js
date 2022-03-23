@@ -11,7 +11,8 @@ function App() {
 
     e.preventDefault();
 
-    const url = "https://api.oireachtas.ie/v1/legislation?date_end=" + document.getElementById("end_date").value
+    let date_end = parseInt(document.getElementById("end_date").value) + 1
+    const url = "https://api.oireachtas.ie/v1/legislation?date_end=" + date_end
 
     fetch(url)
         .then(response => response.json())
