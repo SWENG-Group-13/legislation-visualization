@@ -40,6 +40,25 @@ function App() {
         })
   }
 
+  const findMatch = e => {
+    e.preventDefault();
+
+    const searchTerm = document.getElementById("search").value
+    let matchFound = false
+    val.forEach(value => {
+
+      const {title} = value
+      if(title.includes(searchTerm))
+      {
+        console.log(title)
+        matchFound = true
+      }
+    })
+    if(!matchFound)
+    {
+      console.log("No results match your search")
+    }
+  }
 
   const swapGraph = () => {
     if(graphChosen===0){
@@ -51,7 +70,6 @@ function App() {
 
   const [val, setVal] = React.useState([]);
   const [graphChosen, setGraphChosen] = React.useState(0);
-
 
   return (
     <div className="App">
@@ -66,7 +84,7 @@ function App() {
         />
         <span>Switch graph view</span>
       </label>
-      
+
       <form onSubmit={fetchData}>
         <label>
           Enter end year:<br/>
@@ -74,6 +92,15 @@ function App() {
         </label>
         <button type="submit">Fetch</button>
       </form>
+
+      <form onSubmit={findMatch}>
+        <label>
+          Search:<br />
+          <input type="text" id="search" size="18"></input>
+          <br />
+        </label>
+      </form>
+
       {
         graphChosen === 0
         ? <Timeline data={val}/>
