@@ -7,9 +7,16 @@ import "react-toggle/style.css"
 
 function App() {
 
-  const fetchData = () => {
+  const [val, setVal] = React.useState([]);
+
+  const fetchData = e => {
+
+    e.preventDefault();
+
 
     const url = "https://api.oireachtas.ie/v1/legislation?date_end=" + document.getElementById("end_year").value
+    //let date_end = parseInt(document.getElementById("end_date").value) + 1
+    //const url = "https://api.oireachtas.ie/v1/legislation?date_end=" + date_end
 
     fetch(url)
         .then(response => response.json())
@@ -33,6 +40,7 @@ function App() {
         })
   }
 
+
   const swapGraph = () => {
     if(graphChosen===0){
       setGraphChosen(1)
@@ -43,6 +51,7 @@ function App() {
 
   const [val, setVal] = React.useState([]);
   const [graphChosen, setGraphChosen] = React.useState(0);
+
 
   return (
     <div className="App">
@@ -59,11 +68,12 @@ function App() {
       </label>
       
       <form>
+      //<form onSubmit={fetchData}>
         <label>
           Enter end year:<br/>
           <input type="text" id="end_year" size="10" maxLength="4"></input>
         </label>
-        <input type="button" value="Fetch" onClick={fetchData}></input>
+        <button type="submit">Fetch</button>
       </form>
       {
         graphChosen === 0
