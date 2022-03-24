@@ -7,7 +7,7 @@ import "react-toggle/style.css"
 
 function App() {
 
-  const [val, setVal] = React.useState([]);
+  //const [val, setVal] = React.useState([]);
 
   const fetchData = e => {
 
@@ -67,8 +67,7 @@ function App() {
         <span>Switch graph view</span>
       </label>
       
-      <form>
-      //<form onSubmit={fetchData}>
+      <form onSubmit={fetchData}>
         <label>
           Enter end year:<br/>
           <input type="text" id="end_year" size="10" maxLength="4"></input>
