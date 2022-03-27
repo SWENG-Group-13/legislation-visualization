@@ -11,6 +11,7 @@
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
     "react-toggle": "^4.1.2",
+    "timelines-chart": "^2.11.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
