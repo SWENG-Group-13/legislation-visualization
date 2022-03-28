@@ -8,6 +8,7 @@ import { Searchbar } from "Searchbar";
 import { Content } from "Components/Content";
 import { setUpChart, TimelineChart } from "Components/TimelineChart";
 import { WideContent } from "Components/WideContent";
+import HeaderLogo from "./propylon-logo-long.webp";
 
 function App() {
 	//const [val, setVal] = React.useState([]);
@@ -92,7 +93,7 @@ function App() {
 				<span>
 					<img
 						src={
-							"https://propylon.com/wp-content/uploads/elementor/thumbs/propylon-logo-324x32-2-pe7hc5jhbq86h8p0tq5dj2o8pus12x6hdoqg7ktwlc.png"
+							HeaderLogo
 						}
 						alt='Propylon Logo'
 					/>
