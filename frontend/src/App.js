@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Calendar from "./Components/Calendar.js";
-import Timeline from "./Components/Timeline.js";
+import DirectedGraph from "./Components/DirectedGraph.js";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
 import { Searchbar } from "Searchbar";
@@ -24,6 +24,14 @@ function App() {
 					// data here
 				];
 
+				const dummy2 = [
+					// data here too!
+				]
+	
+				const dummy3 = [
+					// data here three!
+				]
+
 				for (let i = 0; i < data.results.length; i++) {
 					let title = data.results[i].bill.shortTitleEn;
 					for (let j = 0; j < data.results[i].bill.stages.length; j++) {
@@ -33,9 +41,17 @@ function App() {
 							date: new Date(data.results[i].bill.stages[j].event.dates[0]["date"]),
 						});
 					}
+					dummy2.push({name:title,group:"bill"});
+					for(let j = 0; j < data.results[i].bill.sponsors.length; j++)
+					{
+						dummy2.push({name:data.results[i].bill.sponsors[j].sponsor.by.showAs,group:"td"});
+						if(data.results[i].bill.sponsors[j].sponsor.by.showAs)
+							dummy3.push({source:data.results[i].bill.sponsors[j].sponsor.by.showAs,target:title});
+					}
 				}
 
 				setVal(dummy);
+				setVal2({nodes: dummy2, links: dummy3})
 				console.log(dummy);
 				setUpChart(dummy);
 			});
@@ -67,6 +83,7 @@ function App() {
 	};
 
 	const [val, setVal] = React.useState([]);
+	const [val2, setVal2] = React.useState({nodes:[],links:[]});
 	const [graphChosen, setGraphChosen] = React.useState(0);
 
 	return (
@@ -83,29 +100,14 @@ function App() {
 				<form onSubmit={fetchData}>
 					<div>
 						<label>
-							<Searchbar placeholder='Search User' onClick={fetchData} />
+							<Searchbar placeholder='Search Year' onClick={fetchData} />
 						</label>
 					</div>
 				</form>
 			</header>
 
 			<div className='flex-wrapper'>
-				{/* <div className='flex-column'>
-					<div className='flex-item'>
-						<h2>Propylon</h2>
-						<img src={require("./propylon.jpg")} alt='Propylon Logo' />
-					</div>
-				</div> */}
-				<Content title={"Propylon"}>
-					<img src={require("./propylon.jpg")} alt='Propylon Logo' />
-				</Content>
-				<Content title={"Graph 2"}>
-					<Calendar data={val} />
-				</Content>
-			</div>
-
-			<div className='flex-wrapper'>
-				<WideContent title={"Graph 2"}>
+				<WideContent title={"Bills"}>
 					<TimelineChart></TimelineChart>
 				</WideContent>
 				{/* <div className='flex-row'>
@@ -115,6 +117,21 @@ function App() {
 						<TimelineChart data={val}></TimelineChart>
 					</div>
 				</div> */}
+			</div>
+
+			<div className='flex-wrapper'>
+				{/* <div className='flex-column'>
+					<div className='flex-item'>
+						<h2>Propylon</h2>
+						<img src={require("./propylon.jpg")} alt='Propylon Logo' />
+					</div>
+				</div> */}
+				<Content title={"Sponsorship"}>
+					<DirectedGraph data={val2}/>
+				</Content>
+				<Content title={"Contributions"}>
+					<Calendar data={val} />
+				</Content>
 			</div>
 		</div>
 
