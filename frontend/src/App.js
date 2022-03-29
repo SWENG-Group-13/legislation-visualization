@@ -52,6 +52,8 @@ function App() {
 				setVal2({ nodes: dummy2, links: dummy3 })
 				console.log(dummy2);
 				setUpChart(dummy);
+
+				setVal3(dummy.filter(a => a.date < new Date(date_end) && a.date > new Date(date_start)));
 			});
 	};
 
@@ -98,6 +100,7 @@ function App() {
 
 	const [val, setVal] = React.useState([]);
 	const [val2, setVal2] = React.useState({ nodes: [], links: [] });
+	const [val3, setVal3] = React.useState([]);
 	const [graphChosen, setGraphChosen] = React.useState(0);
 
 	return (
@@ -147,7 +150,7 @@ function App() {
 					<DirectedGraph data={val2} />
 				</Content>
 				<Content title={"Contributions"}>
-					<Calendar data={val} />
+					<Calendar data={val3} />
 				</Content>
 			</div>
 		</div>
