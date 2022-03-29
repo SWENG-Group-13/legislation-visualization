@@ -98,6 +98,18 @@ function App() {
 		return lastDay.getDate()
 	}
 
+	function handleChangeStart() {
+		fetchData()
+		let date = document.getElementById("start").value;
+		document.getElementById("end").setAttribute("min", date);
+	}
+
+	function handleChangeEnd() {
+		fetchData()
+		let date = document.getElementById("end").value;
+		document.getElementById("start").setAttribute("max", date);
+	}
+
 	const [val, setVal] = React.useState([]);
 	const [val2, setVal2] = React.useState({ nodes: [], links: [] });
 	const [val3, setVal3] = React.useState([]);
@@ -116,12 +128,12 @@ function App() {
 				</span>
 				<form onSubmit={fetchData}>
 					<div>
-						<label for="start">Select range for data: </label>
-						<input type="month" id="start" name="start" required={true} min="1950-01" max={getCurrentMonth()} defaultValue="2020-01"></input>
+						<label for="start">Range: </label>
+						<input type="month" id="start" name="start" min="1922-10" max={getCurrentMonth()}
+							defaultValue="2020-01" onChange={handleChangeStart}></input>
 						<label for="end"> to </label>
-						<input type="month" id="end" name="end" required={true} min="1950-01" max={getCurrentMonth()} defaultValue={getCurrentMonth()}></input>
-						<label for="submit"> </label>
-						<input type="button" id="submit" value="Fetch" onClick={fetchData}></input>
+						<input type="month" id="end" name="end" min="2020-01" max={getCurrentMonth()}
+							defaultValue={getCurrentMonth()} onChange={handleChangeEnd}></input>
 					</div>
 				</form>
 			</header>
