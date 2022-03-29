@@ -35,6 +35,11 @@ const convert = (arr) => {
 	return res;
 };
 export const setUpChart = (data) => {
+
+	const target = document.querySelector("#TimelineChart");
+	while(target.firstChild)
+		target.removeChild(target.firstChild);
+
 	const segmentClick = (data) => {
 		console.log(data);
 	};
