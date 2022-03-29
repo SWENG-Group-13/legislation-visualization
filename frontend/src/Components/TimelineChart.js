@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import TimelinesChart from "timelines-chart";
 const convert = (arr) => {
 	arr.sort((a, b) => (a.title === b.title ? 0 : a.title < b.title ? -1 : 1));
-	console.log("arr", arr);
+	//console.log("arr", arr);
 	let res = [{ group: "Bills", data: [] }];
 	for (let i = 0; i < arr.length - 1; i++) {
 		let { title, stage, date } = arr[i];
@@ -31,7 +31,7 @@ const convert = (arr) => {
 			}
 		}
 	}
-	console.log("res ", res);
+	//console.log("res ", res);
 	return res;
 };
 export const setUpChart = (data) => {
@@ -41,7 +41,7 @@ export const setUpChart = (data) => {
 		target.removeChild(target.firstChild);
 
 	const segmentClick = (data) => {
-		console.log(data);
+		//console.log(data);
 	};
 	TimelinesChart()
 		.rightMargin(100)

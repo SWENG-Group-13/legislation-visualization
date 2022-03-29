@@ -41,7 +41,8 @@ function App() {
 					}
 					dummy2.push({ name: title, group: "bill" });
 					for (let j = 0; j < data.results[i].bill.sponsors.length; j++) {
-						dummy2.push({ name: data.results[i].bill.sponsors[j].sponsor.by.showAs, group: "td" });
+						if (data.results[i].bill.sponsors[j].sponsor.by.showAs)
+							dummy2.push({ name: data.results[i].bill.sponsors[j].sponsor.by.showAs, group: "td" });
 						if (data.results[i].bill.sponsors[j].sponsor.by.showAs)
 							dummy3.push({ source: data.results[i].bill.sponsors[j].sponsor.by.showAs, target: title });
 					}
@@ -49,7 +50,7 @@ function App() {
 
 				setVal(dummy);
 				setVal2({ nodes: dummy2, links: dummy3 })
-				console.log(dummy);
+				console.log(dummy2);
 				setUpChart(dummy);
 			});
 	};
