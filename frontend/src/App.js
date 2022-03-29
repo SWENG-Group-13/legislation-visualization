@@ -2,21 +2,18 @@ import React from "react";
 import "./App.css";
 import Calendar from "./Components/Calendar.js";
 import DirectedGraph from "./Components/DirectedGraph.js";
-import Toggle from "react-toggle";
 import "react-toggle/style.css";
-import { Searchbar } from "Searchbar";
 import { Content } from "Components/Content";
 import { setUpChart, TimelineChart } from "Components/TimelineChart";
 import { WideContent } from "Components/WideContent";
 import HeaderLogo from "./propylon-logo-long.webp";
 
 function App() {
-	//const [val, setVal] = React.useState([]);
 
-	const fetchData = (input) => {
-		const url = "https://api.oireachtas.ie/v1/legislation?date_end=" + input;
-		//let date_end = parseInt(document.getElementById("end_date").value) + 1
-		//const url = "https://api.oireachtas.ie/v1/legislation?date_end=" + date_end
+	const fetchData = () => {
+		let date_start = document.getElementById("start").value;
+		let date_end = document.getElementById("end").value;
+		const url = "https://api.oireachtas.ie/v1/legislation?date_start=" + date_start + "&date_end=" + date_end + "-" + getLastDayOfMonth(date_end) + "T23:59:59.999"
 
 		fetch(url)
 			.then((response) => response.json())
@@ -28,7 +25,7 @@ function App() {
 				const dummy2 = [
 					// data here too!
 				]
-	
+
 				const dummy3 = [
 					// data here three!
 				]
@@ -42,17 +39,16 @@ function App() {
 							date: new Date(data.results[i].bill.stages[j].event.dates[0]["date"]),
 						});
 					}
-					dummy2.push({name:title,group:"bill"});
-					for(let j = 0; j < data.results[i].bill.sponsors.length; j++)
-					{
-						dummy2.push({name:data.results[i].bill.sponsors[j].sponsor.by.showAs,group:"td"});
-						if(data.results[i].bill.sponsors[j].sponsor.by.showAs)
-							dummy3.push({source:data.results[i].bill.sponsors[j].sponsor.by.showAs,target:title});
+					dummy2.push({ name: title, group: "bill" });
+					for (let j = 0; j < data.results[i].bill.sponsors.length; j++) {
+						dummy2.push({ name: data.results[i].bill.sponsors[j].sponsor.by.showAs, group: "td" });
+						if (data.results[i].bill.sponsors[j].sponsor.by.showAs)
+							dummy3.push({ source: data.results[i].bill.sponsors[j].sponsor.by.showAs, target: title });
 					}
 				}
 
 				setVal(dummy);
-				setVal2({nodes: dummy2, links: dummy3})
+				setVal2({ nodes: dummy2, links: dummy3 })
 				console.log(dummy);
 				setUpChart(dummy);
 			});
@@ -83,8 +79,24 @@ function App() {
 		}
 	};
 
+	function getCurrentMonth() {
+		let today = new Date()
+		let mm = today.getMonth() + 1 //January is 0
+		let yyyy = today.getFullYear()
+
+		if (mm < 10) mm = '0' + mm
+		return (yyyy + '-' + mm)
+	}
+
+	function getLastDayOfMonth(date) {
+		let year = parseInt(date.substring(0, 4))
+		let month = parseInt(date.substring(5))
+		let lastDay = new Date(year, month, 0)
+		return lastDay.getDate()
+	}
+
 	const [val, setVal] = React.useState([]);
-	const [val2, setVal2] = React.useState({nodes:[],links:[]});
+	const [val2, setVal2] = React.useState({ nodes: [], links: [] });
 	const [graphChosen, setGraphChosen] = React.useState(0);
 
 	return (
@@ -100,9 +112,12 @@ function App() {
 				</span>
 				<form onSubmit={fetchData}>
 					<div>
-						<label>
-							<Searchbar placeholder='Search Year' onClick={fetchData} />
-						</label>
+						<label for="start">Select range for data: </label>
+						<input type="month" id="start" name="start" required={true} min="1950-01" max={getCurrentMonth()} defaultValue="2020-01"></input>
+						<label for="end"> to </label>
+						<input type="month" id="end" name="end" required={true} min="1950-01" max={getCurrentMonth()} defaultValue={getCurrentMonth()}></input>
+						<label for="submit"> </label>
+						<input type="button" id="submit" value="Fetch" onClick={fetchData}></input>
 					</div>
 				</form>
 			</header>
@@ -128,7 +143,7 @@ function App() {
 					</div>
 				</div> */}
 				<Content title={"Sponsorship"}>
-					<DirectedGraph data={val2}/>
+					<DirectedGraph data={val2} />
 				</Content>
 				<Content title={"Contributions"}>
 					<Calendar data={val} />
