@@ -10,9 +10,7 @@ import HeaderLogo from "./propylon-logo-long.webp";
 
 function App() {
 
-	const fetchData = (e) => {
-		e.preventDefault();
-
+	const fetchData = (useSearch) => {
 		let date_start = document.getElementById("start").value;
 		let date_end = document.getElementById("end").value;
 		const url = "https://api.oireachtas.ie/v1/legislation?limit=100&date_start=" + date_start + "&date_end=" + date_end + "-" + getLastDayOfMonth(date_end) + "T23:59:59.999"
@@ -36,7 +34,7 @@ function App() {
 				for (let i = 0; i < data.results.length; i++)
 				{
 					let title = data.results[i].bill.shortTitleEn;
-					if(title.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm === "")
+					if(useSearch === false || title.toLowerCase().includes(searchTerm.toLowerCase()))
 					{
 						for (let j = 0; j < data.results[i].bill.stages.length; j++) {
 							dummy.push({
@@ -107,15 +105,20 @@ function App() {
 	}
 
 	function handleChangeStart() {
-		fetchData()
+		fetchData(false)
 		let date = document.getElementById("start").value;
 		document.getElementById("end").setAttribute("min", date);
 	}
 
 	function handleChangeEnd() {
-		fetchData()
+		fetchData(false)
 		let date = document.getElementById("end").value;
 		document.getElementById("start").setAttribute("max", date);
+	}
+
+	function handleSearch(e) {
+		e.preventDefault()
+		fetchData(true)
 	}
 
 	const [val, setVal] = React.useState([]);
@@ -145,7 +148,7 @@ function App() {
 					</div>
 				</form>
 				<div class="space" />
-				<form>
+				<form onSubmit={handleSearch}>
 					<input type="text" id="search" placeholder="Search for bills by name"></input>
 				</form>
 			</header>
