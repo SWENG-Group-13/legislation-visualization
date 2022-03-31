@@ -147,3 +147,9 @@ header > span {
 	display: flex;
 	justify-content: flex-end;
 }
+
+.space {
+	width: 20px;
+	height: auto;
+	display: inline-block;
+}

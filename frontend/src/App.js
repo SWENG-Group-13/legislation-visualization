@@ -10,10 +10,12 @@ import HeaderLogo from "./propylon-logo-long.webp";
 
 function App() {
 
-	const fetchData = () => {
+	const fetchData = (e) => {
+		e.preventDefault();
+
 		let date_start = document.getElementById("start").value;
 		let date_end = document.getElementById("end").value;
-		const url = "https://api.oireachtas.ie/v1/legislation?date_start=" + date_start + "&date_end=" + date_end + "-" + getLastDayOfMonth(date_end) + "T23:59:59.999"
+		const url = "https://api.oireachtas.ie/v1/legislation?limit=100&date_start=" + date_start + "&date_end=" + date_end + "-" + getLastDayOfMonth(date_end) + "T23:59:59.999"
 
 		fetch(url)
 			.then((response) => response.json())
@@ -29,23 +31,29 @@ function App() {
 				const dummy3 = [
 					// data here three!
 				]
-
-				for (let i = 0; i < data.results.length; i++) {
+				
+				const searchTerm = document.getElementById("search").value;
+				for (let i = 0; i < data.results.length; i++)
+				{
 					let title = data.results[i].bill.shortTitleEn;
-					for (let j = 0; j < data.results[i].bill.stages.length; j++) {
-						dummy.push({
-							title: title,
-							stage: j + 1,
-							date: new Date(data.results[i].bill.stages[j].event.dates[0]["date"]),
-						});
+					if(title.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm === "")
+					{
+						for (let j = 0; j < data.results[i].bill.stages.length; j++) {
+							dummy.push({
+								title: title,
+								stage: j + 1,
+								date: new Date(data.results[i].bill.stages[j].event.dates[0]["date"]),
+							});
+						}
+						dummy2.push({ name: title, group: "bill" });
+						for (let j = 0; j < data.results[i].bill.sponsors.length; j++) {
+							if (data.results[i].bill.sponsors[j].sponsor.by.showAs)
+								dummy2.push({ name: data.results[i].bill.sponsors[j].sponsor.by.showAs, group: "td" });
+							if (data.results[i].bill.sponsors[j].sponsor.by.showAs)
+								dummy3.push({ source: data.results[i].bill.sponsors[j].sponsor.by.showAs, target: title });
+						}
 					}
-					dummy2.push({ name: title, group: "bill" });
-					for (let j = 0; j < data.results[i].bill.sponsors.length; j++) {
-						if (data.results[i].bill.sponsors[j].sponsor.by.showAs)
-							dummy2.push({ name: data.results[i].bill.sponsors[j].sponsor.by.showAs, group: "td" });
-						if (data.results[i].bill.sponsors[j].sponsor.by.showAs)
-							dummy3.push({ source: data.results[i].bill.sponsors[j].sponsor.by.showAs, target: title });
-					}
+					
 				}
 
 				setVal(dummy);
@@ -57,22 +65,22 @@ function App() {
 			});
 	};
 
-	const findMatch = (e) => {
-		e.preventDefault();
+	// const findMatch = (e) => {
+	// 	e.preventDefault();
 
-		const searchTerm = document.getElementById("search").value;
-		let matchFound = false;
-		val.forEach((value) => {
-			const { title } = value;
-			if (title.includes(searchTerm)) {
-				console.log(title);
-				matchFound = true;
-			}
-		});
-		if (!matchFound) {
-			console.log("No results match your search");
-		}
-	};
+	// 	const searchTerm = document.getElementById("search").value;
+	// 	let matchFound = false;
+	// 	val.forEach((value) => {
+	// 		const { title } = value;
+	// 		if (title.includes(searchTerm)) {
+	// 			console.log(title);
+	// 			matchFound = true;
+	// 		}
+	// 	});
+	// 	if (!matchFound) {
+	// 		console.log("No results match your search");
+	// 	}
+	// };
 
 	const swapGraph = () => {
 		if (graphChosen === 0) {
@@ -135,6 +143,10 @@ function App() {
 						<input type="month" id="end" name="end" min="2020-01" max={getCurrentMonth()}
 							defaultValue={getCurrentMonth()} onChange={handleChangeEnd}></input>
 					</div>
+				</form>
+				<div class="space" />
+				<form>
+					<input type="text" id="search" placeholder="Search for bills by name"></input>
 				</form>
 			</header>
 
