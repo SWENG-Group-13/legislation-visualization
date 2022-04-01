@@ -1,7 +1,11 @@
 /*<!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: Helvetica;
+}
+</style>
 <style>
 */
 .card {
@@ -21,17 +25,18 @@
     font-size: 22px;
     color: black;
   }
-/*</style>
+/*
+</style>
 </head>
 <body>
 
 <h2 style="text-align:center">Legislation Profile</h2>
 
 <div class="card">
-  <h1>import legislation name here</h1>
-  <t class="title">import main supporter of bill here</t>
-  <p>proposal date</p>
-  <p>successful or not</p>
+  <h1>Import legislation name here</h1>
+  <h2 class="title">import main supporter of bill here</h2>
+  <h3>proposal date</h3>
+  <h3>successful or not</h3>
 </div>
 
 </body>
