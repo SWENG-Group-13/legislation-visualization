@@ -147,9 +147,11 @@ function App() {
 							defaultValue={getCurrentMonth()} onChange={handleChangeEnd}></input>
 					</div>
 				</form>
-				<div class="space" />
+				<div class='space' />
 				<form onSubmit={handleSearch}>
-					<input type="text" id="search" placeholder="Search for bills by name"></input>
+					<div>
+						<input type="text" id="search" placeholder="Search for bills by name"></input>
+					</div>
 				</form>
 			</header>
 
