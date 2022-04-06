@@ -80,6 +80,10 @@ function App() {
 	// 	}
 	// };
 
+	document.addEventListener("DOMContentLoaded", function () {
+		fetchData();
+	});
+
 	const swapGraph = () => {
 		if (graphChosen === 0) {
 			setGraphChosen(1);
@@ -95,6 +99,12 @@ function App() {
 
 		if (mm < 10) mm = '0' + mm
 		return (yyyy + '-' + mm)
+	}
+
+	function getMonthLastYear() {
+		let date = getCurrentMonth().split("-")
+		date[0] = date[0] - 1
+		return (date[0] + '-' + date[1])
 	}
 
 	function getLastDayOfMonth(date) {
@@ -126,6 +136,9 @@ function App() {
 	const [val3, setVal3] = React.useState([]);
 	const [graphChosen, setGraphChosen] = React.useState(0);
 
+	const currentMonth = getCurrentMonth();
+	const monthLastYear = getMonthLastYear();
+
 	return (
 		<div style={{ paddingTop: "4.5rem" }}>
 			<header>
@@ -140,11 +153,11 @@ function App() {
 				<form onSubmit={fetchData}>
 					<div>
 						<label for="start">Range: </label>
-						<input type="month" id="start" name="start" min="1922-10" max={getCurrentMonth()}
-							defaultValue="2020-01" onChange={handleChangeStart}></input>
+						<input type="month" id="start" name="start" min="1922-10" max={currentMonth}
+							defaultValue={monthLastYear} onChange={handleChangeStart}></input>
 						<label for="end"> to </label>
-						<input type="month" id="end" name="end" min="2020-01" max={getCurrentMonth()}
-							defaultValue={getCurrentMonth()} onChange={handleChangeEnd}></input>
+						<input type="month" id="end" name="end" min={monthLastYear} max={currentMonth}
+							defaultValue={currentMonth} onChange={handleChangeEnd}></input>
 					</div>
 				</form>
 				<div class='space' />
