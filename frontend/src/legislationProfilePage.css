@@ -1,0 +1,44 @@
+/*<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Helvetica;
+}
+</style>
+<style>
+*/
+.card {
+    box-shadow: 0 4px 8px rgb(0, 0, 0);
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .title {
+    color: rgb(18, 207, 228);
+    font-size: 18px;
+  }
+  
+  a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+  }
+/*
+</style>
+</head>
+<body>
+
+<h2 style="text-align:center">Legislation Profile</h2>
+
+<div class="card">
+  <h1>Import legislation name here</h1>
+  <h2 class="title">import main supporter of bill here</h2>
+  <h3>proposal date</h3>
+  <h3>successful or not</h3>
+</div>
+
+</body>
+</html>
+*/
