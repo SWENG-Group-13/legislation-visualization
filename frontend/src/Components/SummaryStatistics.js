@@ -55,7 +55,7 @@ function Analytics(props) {
 
         for (let key in dummy02)
         {
-          dummy2.push({name:key,value:dummy02[key]})
+          dummy2.push({name:"Stage "+key,value:dummy02[key]})
         }
 
 		    const chart = PieChart(dummy, {
@@ -176,7 +176,7 @@ function PieChart(data, {
         .attr("transform", d => `translate(${arcLabel.centroid(d)})`)
       .selectAll("tspan")
       .data(d => {
-        const lines = `Stage ${title(d.data)}`.split(/\n/);
+        const lines = `${title(d.data)}`.split(/\n/);
         return (d.endAngle - d.startAngle) > 0.25 ? lines : lines.slice(0, 1);
       })
       .join("tspan")
