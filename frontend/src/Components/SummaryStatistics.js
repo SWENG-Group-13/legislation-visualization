@@ -84,15 +84,20 @@ function Analytics(props) {
 	}, [props]);
 
     return(
-        <div className='Analytics'>
-            <center>
-            <h1><b>Summary Analytics.</b></h1>
-            <p id="ti1"></p>
+      <div className='Analytics'>
+      <center>
+        <div className='flex-wrapper'>
+          <div>
+            <h3 id="ti1"></h3>
             <div id="sa1"></div>
-            <p id="ti2"></p>
-            <div id="sa2"></div>
-            </center>
-		</div>
+          </div>
+          <div>
+            <h3 id="ti2"></h3>
+            <div id="sa2"></div> 
+          </div>
+        </div>
+      </center>
+    </div>
     );
 };
 
