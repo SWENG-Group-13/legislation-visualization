@@ -194,7 +194,7 @@ function App() {
 			</header>
 			{
 				emptySearch === 1
-				? <span>There is no bill by that name.</span>
+				? <center className='no-match'>There are no bills that match your search.<br/>Try a different search term or increase the date range.</center>
 				: <div>
 					<div className='flex-wrapper'>
 						<WideContent title={"Bills"}>
