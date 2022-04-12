@@ -21,7 +21,6 @@ function App() {
 		let date_end = document.getElementById("end").value;
 		const url = "https://api.oireachtas.ie/v1/legislation?limit=100&date_start=" + date_start + "&date_end=" + date_end + "-" + getLastDayOfMonth(date_end) + "T23:59:59.999"
 
-		if (val4!=={})
 		fetch("https://api.oireachtas.ie/v1/members?date_start=1900-01-01&chamber_id=&date_end=2099-01-01&limit=2000")
 			.then((response) => response.json())
 			.then((data) => {
@@ -78,13 +77,12 @@ function App() {
 				}
 
 				setVal(dummy);
+				console.log(val);
 				setVal2({ nodes: dummy2, links: dummy3 })
 				setUpChart(dummy);
 
 				setVal3(dummy.filter(a => a.date < new Date(date_end) && a.date > new Date(date_start)));
 			});
-
-		
 	};
 
 	// const findMatch = (e) => {

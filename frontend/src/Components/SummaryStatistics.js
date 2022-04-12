@@ -3,10 +3,6 @@ import React from 'react';
 
 function Analytics(props) {
 
-    const [val, setVal] = React.useState("No party");
-    const [val2, setVal2] = React.useState(NaN);
-    const [val3, setVal3] = React.useState(NaN);
-
     React.useEffect(() => {
 		    const { data } = props;
         const { data2 } = props;
@@ -68,7 +64,7 @@ function Analytics(props) {
             value: d => d.value
         })
 
-        //dummy.sort((a,b) => b.value - a.value);
+        dummy.sort((a,b) => b.value - a.value);
         //setVal(dummy[0].name);
 
         
@@ -82,15 +78,18 @@ function Analytics(props) {
         const target2 = document.querySelector("#sa2");
         while (target2.firstChild) target2.removeChild(target2.firstChild);
         target2.appendChild(chart2);
+
+        document.querySelector("#ti1").innerHTML = dummy[0].name + " is sponsoring many bills.";
+        document.querySelector("#ti2").innerHTML =  dummy2[10].value+" of "+dummy2.reduce((a,b) => a + (b.value || 0), 0) + " is sponsoring many bills.";
 	}, [props]);
 
     return(
         <div className='Analytics'>
             <center>
             <h1><b>Summary Analytics.</b></h1>
-            <p><i>{val}</i> sponsors the most bills.</p>
+            <p id="ti1"></p>
             <div id="sa1"></div>
-            <p><i>{val2} of {val3}</i> laws pass.</p>
+            <p id="ti2"></p>
             <div id="sa2"></div>
             </center>
 		</div>
