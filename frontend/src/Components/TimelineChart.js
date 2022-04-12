@@ -2,31 +2,40 @@ import React, { useEffect } from "react";
 import TimelinesChart from "timelines-chart";
 const convert = (arr) => {
 	arr.sort((a, b) => (a.title === b.title ? 0 : a.title < b.title ? -1 : 1));
-	//console.log("arr", arr);
+	// console.log("arr", arr);
 	let res = [{ group: "Bills", data: [] }];
-	for (let i = 0; i < arr.length - 1; i++) {
-		let { title, stage, date } = arr[i];
+	for (let i = 0; i < arr.length - 1; i++)
+	{
+		let { title, stage, date, billYear, billNo} = arr[i];
 		let { stage: stage2, date: date2 } = arr[i + 1];
-		if (new Date(date).getTime() === new Date(date2).getTime()) {
+		if (new Date(date).getTime() === new Date(date2).getTime())
+		{
 			let temp = new Date(date);
 			temp.setTime(temp.getTime() - 12 * 60 * 60 * 1000);
 			date = temp.toString();
 		}
-		if (stage2 - stage === 1) {
-			if (stage === 1) {
+		if (stage2 - stage === 1)
+		{
+			if (stage === 1)
+			{
 				res[0].data.push({
 					label: title,
 					data: [
 						{
 							timeRange: [date, date2],
 							val: `Stage ${stage} to Stage ${stage + 1}`,
+							billYear: billYear,
+							billNo: billNo,
 						},
 					],
 				});
-			} else {
+			} else
+			{
 				res[0].data[res[0].data.length - 1].data.push({
 					timeRange: [date, date2],
 					val: `Stage ${stage} to Stage ${stage + 1}`,
+					billYear: billYear,
+					billNo: billNo,
 				});
 			}
 		}
@@ -42,9 +51,11 @@ export const setUpChart = (data) => {
 			target.removeChild(target.firstChild);
 	}
 
-	const segmentClick = (data) => {
-		//console.log(data);
+	const segmentClick = (segData) => {
+		const url = "https://www.oireachtas.ie/en/bills/bill/" + segData.data.billYear + "/" + segData.data.billNo
+		window.open(url, '_blank')
 	};
+
 	TimelinesChart()
 		.rightMargin(100)
 		.leftMargin(100)

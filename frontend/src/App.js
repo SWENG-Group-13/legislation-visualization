@@ -57,6 +57,8 @@ function App() {
 				for (let i = 0; i < data.results.length; i++)
 				{
 					let title = data.results[i].bill.shortTitleEn;
+					let billYear = data.results[i].bill.billYear
+					let billNo = data.results[i].bill.billNo
 					if(useSearch === false || title.toLowerCase().includes(searchTerm.toLowerCase()))
 					{
 						for (let j = 0; j < data.results[i].bill.stages.length; j++) {
@@ -64,6 +66,8 @@ function App() {
 								title: title,
 								stage: j + 1,
 								date: new Date(data.results[i].bill.stages[j].event.dates[0]["date"]),
+								billYear: billYear,
+								billNo: billNo,
 							});
 						}
 						dummy2.push({ name: title, group: "bill" });
