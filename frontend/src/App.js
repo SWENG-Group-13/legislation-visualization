@@ -222,9 +222,11 @@ function App() {
 						<Content title={"Contributions"}>
 							<Calendar data={val3}/>
 						</Content>
-						<Content title={"Summary"}>
+					</div>
+					<div className='flex-wrapper'>
+						<WideContent title={"Summary Analytics"}>
 							<SummaryStatistics data={val2} data2={val4} data3={val}/>
-						</Content>
+						</WideContent>
 					</div>
 			</div>
 		}

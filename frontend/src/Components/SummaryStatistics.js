@@ -80,19 +80,24 @@ function Analytics(props) {
         target2.appendChild(chart2);
 
         document.querySelector("#ti1").innerHTML = dummy.length>0?dummy.reduce((a,b) => a.value > b.value? a:b).name+" is sponsoring many bills.":"";
-        document.querySelector("#ti2").innerHTML =  /*dummy2[10].value*/" of "+dummy2.reduce((a,b) => a + (b.value || 0), 0) + " bills enacted (reached stage 11).";
+        document.querySelector("#ti2").innerHTML =  dummy2.length>10?dummy2[10].value+" of "+dummy2.reduce((a,b) => a + (b.value || 0), 0) + " bills enacted (reached stage 11).":"No bills enacted.";
 	}, [props]);
 
     return(
-        <div className='Analytics'>
-            <center>
-            <h1><b>Summary Analytics.</b></h1>
-            <p id="ti1"></p>
+      <div className='Analytics'>
+      <center>
+        <div className='flex-wrapper'>
+          <div>
+            <h3 id="ti1"></h3>
             <div id="sa1"></div>
-            <p id="ti2"></p>
-            <div id="sa2"></div>
-            </center>
-		</div>
+          </div>
+          <div>
+            <h3 id="ti2"></h3>
+            <div id="sa2"></div> 
+          </div>
+        </div>
+      </center>
+    </div>
     );
 };
 

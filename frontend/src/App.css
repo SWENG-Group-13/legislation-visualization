@@ -172,10 +172,6 @@ input[type=month] {
 	border-radius: 4px;
 }
 
-.Analytics {
-	background-color: #f8f8fa;
-}
-
 .Analytics rect, h1{
 	color: #223462;
 }

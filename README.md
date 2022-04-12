@@ -3,7 +3,7 @@
 ### Overview
 The goal of the project is to deliver an easy to use web application that meaningfully displays the many changes legislative documents undergo between their introduction and their final passage into law. The app includes multiple graphs and analytics that show how individual bills move through the legislative process, when the Oireachtas is most productive, and the relationships of legislators, political parties, and indivudal bills.
 
-Features:
+### Features:
 - Bills can be displayed based on a given date range or by searching for keywords.
 - The timelime graph shows all bills for a given query, it color codes the various stages a bill goes through, and allows the user to zoom and scroll through the timeline.
 - The sponsorship graph show legislators in orange, bills in blue, and the relationships of who worked on what.
