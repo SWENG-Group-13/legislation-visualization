@@ -37,8 +37,10 @@ const convert = (arr) => {
 export const setUpChart = (data) => {
 
 	const target = document.querySelector("#TimelineChart");
-	while(target.firstChild)
-		target.removeChild(target.firstChild);
+	if(target !== null){
+		while(target.firstChild)
+			target.removeChild(target.firstChild);
+	}
 
 	const segmentClick = (data) => {
 		//console.log(data);
@@ -56,6 +58,7 @@ export const setUpChart = (data) => {
 		// .zColorScale(scale)
 		document.getElementById("TimelineChart")
 	);
+	
 };
 export const TimelineChart = () => {
 	return <div id='TimelineChart'></div>;

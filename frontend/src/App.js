@@ -15,6 +15,7 @@ function App() {
 	const [val2, setVal2] = React.useState({ nodes: [], links: [] });
 	const [val3, setVal3] = React.useState([]);
 	const [val4, setVal4] = React.useState({});
+	const [emptySearch, setEmptySearch] = React.useState(0);
 
 	const fetchData = (useSearch) => {
 		let date_start = document.getElementById("start").value;
@@ -82,6 +83,11 @@ function App() {
 				setUpChart(dummy);
 
 				setVal3(dummy.filter(a => a.date < new Date(date_end) && a.date > new Date(date_start)));
+				if(dummy2.length === 0){
+					setEmptySearch(1);
+				} else {
+					setEmptySearch(0);
+				}
 			});
 	};
 
@@ -186,38 +192,44 @@ function App() {
 					</div>
 				</form>
 			</header>
-
-			<div className='flex-wrapper'>
-				<WideContent title={"Bills"}>
-					<TimelineChart></TimelineChart>
-				</WideContent>
-				{/* <div className='flex-row'>
-					<div className='flex-item'>
-						<h2>Graph 1</h2>
-						<Timeline data={val} />
-						<TimelineChart data={val}></TimelineChart>
+			{
+				emptySearch === 1
+				? <span>There is no bill by that name.</span>
+				: <div>
+					<div className='flex-wrapper'>
+						<WideContent title={"Bills"}>
+							<TimelineChart></TimelineChart>
+						</WideContent>
+						{/* <div className='flex-row'>
+							<div className='flex-item'>
+								<h2>Graph 1</h2>
+								<Timeline data={val} />
+								<TimelineChart data={val}></TimelineChart>
+							</div>
+						</div> */}
 					</div>
-				</div> */}
-			</div>
 
-			<div className='flex-wrapper'>
-				{/* <div className='flex-column'>
-					<div className='flex-item'>
-						<h2>Propylon</h2>
-						<img src={require("./propylon.jpg")} alt='Propylon Logo' />
+					<div className='flex-wrapper'>
+						{/* <div className='flex-column'>
+							<div className='flex-item'>
+								<h2>Propylon</h2>
+								<img src={require("./propylon.jpg")} alt='Propylon Logo' />
+							</div>
+						</div> */}
+						<Content title={"Sponsorship"}>
+							<DirectedGraph data={val2} />
+						</Content>
+						<Content title={"Contributions"}>
+							<Calendar data={val3}/>
+						</Content>
+						<Content title={"Summary"}>
+							<SummaryStatistics data={val2} data2={val4} data3={val}/>
+						</Content>
 					</div>
-				</div> */}
-				<Content title={"Sponsorship"}>
-					<DirectedGraph data={val2} />
-				</Content>
-				<Content title={"Contributions"}>
-					<Calendar data={val3}/>
-				</Content>
-				<Content title={"Summary"}>
-					<SummaryStatistics data={val2} data2={val4} data3={val}/>
-				</Content>
 			</div>
+		}
 		</div>
+		
 
 		// <div className="App">
 		//   <img src={require('./propylon.jpg')} alt="Propylon Logo" />
