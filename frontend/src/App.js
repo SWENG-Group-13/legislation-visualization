@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Calendar from "./Components/Calendar.js";
 import DirectedGraph from "./Components/DirectedGraph.js";
+import SummaryStatistics from "./Components/SummaryStatistics.js"
 import "react-toggle/style.css";
 import { Content } from "Components/Content";
 import { setUpChart, TimelineChart } from "Components/TimelineChart";
@@ -10,24 +11,46 @@ import HeaderLogo from "./propylon-logo-long.webp";
 
 function App() {
 
+	const [val, setVal] = React.useState([]);
+	const [val2, setVal2] = React.useState({ nodes: [], links: [] });
+	const [val3, setVal3] = React.useState([]);
+	const [val4, setVal4] = React.useState({});
+
 	const fetchData = (useSearch) => {
 		let date_start = document.getElementById("start").value;
 		let date_end = document.getElementById("end").value;
 		const url = "https://api.oireachtas.ie/v1/legislation?limit=100&date_start=" + date_start + "&date_end=" + date_end + "-" + getLastDayOfMonth(date_end) + "T23:59:59.999"
+
+		if (val4!=={})
+		fetch("https://api.oireachtas.ie/v1/members?date_start=1900-01-01&chamber_id=&date_end=2099-01-01&limit=2000")
+			.then((response) => response.json())
+			.then((data) => {
+				const dummy4 = {
+					// politicians and parties
+				}
+				for(let i = 0; i < data.results.length; i++)
+				{
+					dummy4[data.results[i].member.fullName] = data.results[i].member.memberships[0].membership.parties[0].party.showAs;
+				}
+				setVal4(dummy4);
+			});
 
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
 				const dummy = [
 					// data here
+					// title stage and date of bills
 				];
 
 				const dummy2 = [
 					// data here too!
+					// names of bills and politicians
 				]
 
 				const dummy3 = [
 					// data here three!
+					// connections between bills and politicians
 				]
 				
 				const searchTerm = document.getElementById("search").value;
@@ -56,11 +79,12 @@ function App() {
 
 				setVal(dummy);
 				setVal2({ nodes: dummy2, links: dummy3 })
-				console.log(dummy2);
 				setUpChart(dummy);
 
 				setVal3(dummy.filter(a => a.date < new Date(date_end) && a.date > new Date(date_start)));
 			});
+
+		
 	};
 
 	// const findMatch = (e) => {
@@ -131,9 +155,6 @@ function App() {
 		fetchData(true)
 	}
 
-	const [val, setVal] = React.useState([]);
-	const [val2, setVal2] = React.useState({ nodes: [], links: [] });
-	const [val3, setVal3] = React.useState([]);
 	const [graphChosen, setGraphChosen] = React.useState(0);
 
 	const currentMonth = getCurrentMonth();
@@ -192,7 +213,10 @@ function App() {
 					<DirectedGraph data={val2} />
 				</Content>
 				<Content title={"Contributions"}>
-					<Calendar data={val3} />
+					<Calendar data={val3}/>
+				</Content>
+				<Content title={"Summary"}>
+					<SummaryStatistics data={val2} data2={val4} data3={val}/>
 				</Content>
 			</div>
 		</div>
