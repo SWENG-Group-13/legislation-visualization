@@ -80,7 +80,7 @@ function Analytics(props) {
         target2.appendChild(chart2);
 
         document.querySelector("#ti1").innerHTML = dummy[0].name + " is sponsoring many bills.";
-        document.querySelector("#ti2").innerHTML =  dummy2[10].value+" of "+dummy2.reduce((a,b) => a + (b.value || 0), 0) + " is sponsoring many bills.";
+        document.querySelector("#ti2").innerHTML =  dummy2[10].value+" of "+dummy2.reduce((a,b) => a + (b.value || 0), 0) + " bills enacted (reached stage 11).";
 	}, [props]);
 
     return(
