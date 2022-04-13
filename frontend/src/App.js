@@ -7,7 +7,7 @@ import "react-toggle/style.css";
 import { Content } from "Components/Content";
 import { setUpChart, TimelineChart } from "Components/TimelineChart";
 import { WideContent } from "Components/WideContent";
-import HeaderLogo from "./propylon-logo-long.webp";
+import HeaderLogo from "Assets/propylon-logo-long.webp";
 
 function App() {
 
@@ -116,13 +116,13 @@ function App() {
 		fetchData();
 	});
 
-	const swapGraph = () => {
-		if (graphChosen === 0) {
-			setGraphChosen(1);
-		} else {
-			setGraphChosen(0);
-		}
-	};
+	// const swapGraph = () => {
+	// 	if (graphChosen === 0) {
+	// 		setGraphChosen(1);
+	// 	} else {
+	// 		setGraphChosen(0);
+	// 	}
+	// };
 
 	function getCurrentMonth() {
 		let today = new Date()
@@ -163,7 +163,7 @@ function App() {
 		fetchData(true)
 	}
 
-	const [graphChosen, setGraphChosen] = React.useState(0);
+	// const [graphChosen, setGraphChosen] = React.useState(0);
 
 	const currentMonth = getCurrentMonth();
 	const monthLastYear = getMonthLastYear();
@@ -204,22 +204,9 @@ function App() {
 						<WideContent title={"Bills"}>
 							<TimelineChart></TimelineChart>
 						</WideContent>
-						{/* <div className='flex-row'>
-							<div className='flex-item'>
-								<h2>Graph 1</h2>
-								<Timeline data={val} />
-								<TimelineChart data={val}></TimelineChart>
-							</div>
-						</div> */}
 					</div>
 
 					<div className='flex-wrapper'>
-						{/* <div className='flex-column'>
-							<div className='flex-item'>
-								<h2>Propylon</h2>
-								<img src={require("./propylon.jpg")} alt='Propylon Logo' />
-							</div>
-						</div> */}
 						<Content title={"Sponsorship"}>
 							<DirectedGraph data={val2} />
 						</Content>
@@ -235,43 +222,6 @@ function App() {
 			</div>
 		}
 		</div>
-		
-
-		// <div className="App">
-		//   <img src={require('./propylon.jpg')} alt="Propylon Logo" />
-		//   <h1>Demonstration</h1>
-
-		//   <label>
-		//     <Toggle
-		//       id='graph-selector'
-		//       onChange={swapGraph}
-		//       icons={false}
-		//     />
-		//     <span>Switch graph view</span>
-		//   </label>
-
-		//   <form onSubmit={fetchData}>
-		//     <label>
-		//       Enter end year:<br/>
-		//       <input type="text" id="end_year" size="10" maxLength="4"></input>
-		//     </label>
-		//     <button type="submit">Fetch</button>
-		//   </form>
-
-		//   <form onSubmit={findMatch}>
-		//     <label>
-		//       Search:<br />
-		//       <input type="text" id="search" size="18"></input>
-		//       <br />
-		//     </label>
-		//   </form>
-
-		//   {
-		//     graphChosen === 0
-		//     ? <Timeline data={val}/>
-		//     : <Calendar data={val}/>
-		//   }
-		// </div>
 	);
 }
 

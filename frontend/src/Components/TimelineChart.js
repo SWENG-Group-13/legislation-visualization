@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TimelinesChart from "timelines-chart";
 const convert = (arr) => {
 	arr.sort((a, b) => (a.title === b.title ? 0 : a.title < b.title ? -1 : 1));
