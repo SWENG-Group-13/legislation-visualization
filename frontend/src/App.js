@@ -95,34 +95,9 @@ function App() {
 			});
 	};
 
-	// const findMatch = (e) => {
-	// 	e.preventDefault();
-
-	// 	const searchTerm = document.getElementById("search").value;
-	// 	let matchFound = false;
-	// 	val.forEach((value) => {
-	// 		const { title } = value;
-	// 		if (title.includes(searchTerm)) {
-	// 			console.log(title);
-	// 			matchFound = true;
-	// 		}
-	// 	});
-	// 	if (!matchFound) {
-	// 		console.log("No results match your search");
-	// 	}
-	// };
-
 	document.addEventListener("DOMContentLoaded", function () {
 		fetchData();
 	});
-
-	// const swapGraph = () => {
-	// 	if (graphChosen === 0) {
-	// 		setGraphChosen(1);
-	// 	} else {
-	// 		setGraphChosen(0);
-	// 	}
-	// };
 
 	function getCurrentMonth() {
 		let today = new Date()
@@ -162,8 +137,6 @@ function App() {
 		e.preventDefault()
 		fetchData(true)
 	}
-
-	// const [graphChosen, setGraphChosen] = React.useState(0);
 
 	const currentMonth = getCurrentMonth();
 	const monthLastYear = getMonthLastYear();
